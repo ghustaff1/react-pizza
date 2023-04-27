@@ -7,8 +7,11 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 
 import Services from '../services/services';
+import { SearchContext } from '../App';
 
-const Home = ({ searchValue }) => {
+const Home = () => {
+
+  const {searchValue}=React.useContext(SearchContext)
 
   const services = new Services();
 
