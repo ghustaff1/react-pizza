@@ -1,0 +1,31 @@
+.root{
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+
+  li{
+    border: 1px solid #f88132;  
+    cursor: pointer;
+    border-radius: 50%;
+    
+  }
+  
+  a{
+    font-size: 18px;
+    min-width: 45px;
+    min-height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  :global{  
+    .selected{
+      background-color: #f88132;
+      a {
+        color: #fff;
+      }
+    }
+  }
+}
