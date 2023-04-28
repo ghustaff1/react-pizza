@@ -4,18 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import {setCategory} from '../redux/slices/filterSlice';
 
 function Categories() {
-  // const [activeIndex, setActiveIndex] = React.useState(0);
 
   const category=useSelector(state=>state.filter.category);
   const dispatch=useDispatch();
 
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
-
-  // const onChangeCategory = (i) => {
-  //   // setActiveIndex(i);
-  //   setCategory(i);
-  // };
-
 
   return (
     <div className="categories">
