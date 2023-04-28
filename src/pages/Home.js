@@ -9,9 +9,11 @@ import Pagination from '../components/Pagination';
 import Services from '../services/services';
 import { SearchContext } from '../App';
 
+import { useSelector } from 'react-redux';
+
 const Home = () => {
 
-  const {searchValue}=React.useContext(SearchContext)
+  // const {searchValue}=React.useContext(SearchContext)
 
   const services = new Services();
 
@@ -21,10 +23,42 @@ const Home = () => {
   const [currentPizzaSort, setCurrentPizzaSort] = React.useState('rating');
   const [currentPage, setCurrentPage]=React.useState(1);
 
+  //Redux
+  const category=useSelector(state=>state.filter.category);
+  const sort=useSelector(state=>state.filter.sort);
+  const searchValue=useSelector(state=>state.filter.searchValue);
+
+  // console.log('in home ');
+
+  // console.log('category ', category);
+  //   console.log('sort ', sort);
+  //   console.log('searchValue ', searchValue);
+
+
+
   const _pizzaDataUrl = 
   `https://6446cd9b0431e885f01c4899.mockapi.io/items?page=${currentPage}&limit=4&`;
 
-  React.useEffect(() => {
+    //React-native
+  // React.useEffect(() => {
+  //   services.getPizza(_pizzaDataUrl)
+  //     .then(json => {
+  //       setItems(json);
+  //       setLoading(false);
+  //     })
+  // }, []);
+
+  // React.useEffect(() => {
+  //   setLoading(true);
+  //   services.getPizza(_pizzaDataUrl, currentPizzaCategory, currentPizzaSort, searchValue)
+  //     .then(json => {
+  //       setItems(json);
+  //       setLoading(false);
+  //     })
+  // }, [currentPizzaCategory, currentPizzaSort, searchValue, currentPage]);
+
+    //Redux
+    React.useEffect(() => {
     services.getPizza(_pizzaDataUrl)
       .then(json => {
         setItems(json);
@@ -34,12 +68,12 @@ const Home = () => {
 
   React.useEffect(() => {
     setLoading(true);
-    services.getPizza(_pizzaDataUrl, currentPizzaCategory, currentPizzaSort, searchValue)
+    services.getPizza(_pizzaDataUrl, category, sort, searchValue)
       .then(json => {
         setItems(json);
         setLoading(false);
       })
-  }, [currentPizzaCategory, currentPizzaSort, searchValue, currentPage]);
+  }, [category, sort, searchValue, currentPage]);
 
   const skeletons = [...new Array(8)].map((name, i) => <Skeleton key={i} />);
 

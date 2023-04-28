@@ -1,6 +1,8 @@
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 
+// import { useSelector, useDispatch } from 'react-redux'
+// import { decrement, increment, inc555 } from './redux/slices/filterSlice';
 
 import './scss/app.scss';
 
@@ -14,6 +16,10 @@ export const SearchContext = React.createContext();
 function App() {
   const [searchValue, setSearchValue] = React.useState('');
 
+  // const count = useSelector((state) => state.counter.count)
+  // const dispatch = useDispatch()
+
+
   return (
     <div className="wrapper">
       <SearchContext.Provider value={{ searchValue, setSearchValue }}>
@@ -25,8 +31,9 @@ function App() {
             <Route path='*' element={<NotFound />} />
           </Routes>
         </div>
-      </SearchContext.Provider>
+      </SearchContext.Provider> 
     </div>
+
   );
 }
 

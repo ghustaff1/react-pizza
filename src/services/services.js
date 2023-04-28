@@ -2,6 +2,8 @@ class Services {
 
 
   getPizza = (url, category = 0, sort = 'rating', searchValue) => {
+    
+
     category ? url += `category=${category}` : url = url;
 
     let order;
