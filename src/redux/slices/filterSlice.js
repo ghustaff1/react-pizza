@@ -34,7 +34,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   sort: 'rating',
   category: 0,
-  searchValue: ''
+  searchValue: '',
+  currentPage:1,
 };
 
 const filterSlice = createSlice({
@@ -52,10 +53,14 @@ const filterSlice = createSlice({
     setSearchValue(state, searchValue){
       state.searchValue = searchValue.payload;
       console.log('searchValue ', state.searchValue);
+    },
+    setCurrentPage(state, currentPage){
+      state.currentPage = currentPage.payload;
+      console.log('pageCount ', state.currentPage);
     }
   }
 });
 
-export const {setCategory, setSort, setSearchValue}=filterSlice.actions;
+export const {setCategory, setSort, setSearchValue, setCurrentPage}=filterSlice.actions;
 
 export default filterSlice.reducer;

@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 class Services {
 
   getPizza = (url, category = 0, sort = 'rating', searchValue) => {
@@ -11,7 +13,8 @@ class Services {
     searchValue ? url += `&search=${searchValue}` : url = url;
 
     console.log(url)
-    return fetch(url).then(data => data.json());
+
+    return axios.get(url).then(res=>res.data);
   }
 }
 export default Services;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
@@ -8,7 +8,8 @@ import Pagination from '../components/Pagination';
 
 import Services from '../services/services';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentPage } from '../redux/slices/filterSlice';
 
 const Home = () => {
   const services = new Services();
@@ -16,29 +17,28 @@ const Home = () => {
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  // const [currentPage, setCurrentPage] = React.useState(1);
 
-  const { category, sort, searchValue } = useSelector(state => state.filter);
+  const dispatch = useDispatch();
+  const { category, sort, currentPage, searchValue } = useSelector(state => state.filter);
 
   const _pizzaDataUrl =
     `https://6446cd9b0431e885f01c4899.mockapi.io/items?page=${currentPage}&limit=4&`;
 
-  React.useEffect(() => {
-    services.getPizza(_pizzaDataUrl)
-      .then(json => {
-        setItems(json);
-        setLoading(false);
-      })
-  }, []);
 
   React.useEffect(() => {
     setLoading(true);
     services.getPizza(_pizzaDataUrl, category, sort, searchValue)
-      .then(json => {
-        setItems(json);
+      .then(data => {
+        setItems(data);
         setLoading(false);
       })
   }, [category, sort, searchValue, currentPage]);
+
+  const onChangePage = (number) => {
+    dispatch(setCurrentPage(number));
+  }
+
 
   const skeletons = [...new Array(8)].map((name, i) => <Skeleton key={i} />);
 
@@ -60,7 +60,8 @@ const Home = () => {
         }
       </div>
       <Pagination
-        onChangePage={setCurrentPage} />
+        currentPage={currentPage}
+        onChangePage={onChangePage} />
     </div>
   )
 }
