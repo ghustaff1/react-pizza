@@ -49,7 +49,6 @@ const Home = () => {
         setItems(data);
         setLoading(false);
       })
-    // isSearch.current=false;
   }, [category, sort, searchValue, currentPage]);
 
   React.useEffect(() => {
@@ -65,12 +64,10 @@ const Home = () => {
   }, [category, sort, currentPage]);
 
 
-
-
   const skeletons = [...new Array(8)].map((name, i) => <Skeleton key={i} />);
 
   const pizzas = items.map((obj) =>
-    <PizzaBlock key={obj.id} data={obj} />
+    <PizzaBlock key={obj.id} {...obj} />
   )
 
   return (
