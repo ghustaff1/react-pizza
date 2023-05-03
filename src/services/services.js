@@ -14,7 +14,8 @@ class Services {
 
     console.log(url)
 
-    return axios.get(url).then(res=>res.data);
+
+    return axios.get(url).then(res => res.data);
   }
 }
 export default Services;
