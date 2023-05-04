@@ -10,25 +10,21 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 
-
-import Services from '../services/services';
-
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import {  fetchPizzas } from '../redux/slices/pizzaSlice';
+import { selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import {  fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
-  const services = new Services();
   const navigate = useNavigate();
 
   const isMounted = React.useRef(false);
 
   const dispatch = useDispatch();
-  const { category, sort, currentPage, searchValue } = useSelector(state => state.filter);
-  const { items, status } = useSelector(state => state.pizza)
+  const { category, sort, currentPage, searchValue } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizzaData)
 
   const _pizzaDataUrl =
-    `https://6446cd9b0431e885f01c4899.mockapi.io/items?page=${currentPage}&limit=4`;
+    `https://6446cd9b0431e885f01c4899.mockapi.io/items?page=${currentPage}&limit=4&`;
 
 
   React.useEffect(() => {

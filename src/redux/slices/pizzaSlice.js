@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchPizzas = createAsyncThunk(
-  'pizza/fetchPizzasStatus',
-  async (url) => {
-    return axios.get(url).then(res => res.data);
+export const fetchPizzas = createAsyncThunk('pizza/fetchPizzasStatus',
+  async (url, thunkAPI) => {
+    const {data} = await axios.get(url);
+
+    return data;
   }
 )
 
@@ -27,15 +28,21 @@ const pizzaSlice = createSlice({
       state.items = [];
     },
     [fetchPizzas.fulfilled]: (state, action) => {
+      console.log(action)
+      console.log('success')
       state.items = action.payload
       state.status = 'success'
     },
-    [fetchPizzas.rejected]: (state,) => {
+    [fetchPizzas.rejected]: (state, action) => {
+      console.log('error')
+      console.log(action)
       state.status = 'error'
       state.items = [];
     },
   }
 });
+
+export const selectPizzaData=state=>state.pizza;
 
 export const { setItems } = pizzaSlice.actions;
 
