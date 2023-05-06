@@ -5,11 +5,7 @@ import { addItem, selectCartItemById } from '../../redux/slices/cartSlice';
 
 function PizzaBlock({id, imageUrl, title, types, sizes, price, category, rating }) {
 
-
-
   const typeNames = ['тонкое', 'традиционное'];
-
-  
 
   const [activeType, setActiveType] = React.useState(types[0]);
   const [activeSize, setActiveSize] = React.useState(0);

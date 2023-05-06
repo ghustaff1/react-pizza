@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import qs from 'qs';
 
@@ -70,7 +70,9 @@ const Home = () => {
 
 
   const pizzas = items.map(obj =>
-    <PizzaBlock key={obj.id} {...obj} />
+    <Link to={`pizza/${obj.id}`} key={obj.id}>
+      <PizzaBlock {...obj} />
+      </Link>
   )
 
   const content = status === 'loading' ?
