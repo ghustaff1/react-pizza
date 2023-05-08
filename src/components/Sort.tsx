@@ -3,7 +3,12 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSort, setSort } from '../redux/slices/filterSlice';
 
-const list = [
+type SortItem = {
+  name: string,
+  sortProp: string,
+};
+
+const list: SortItem[] = [
   { name: 'популярности ↑', sortProp: 'rating' },
   { name: 'популярности ↓', sortProp: '-rating' },
   { name: 'цене ↑', sortProp: 'price' },
@@ -15,26 +20,26 @@ const list = [
 function Sort() {
 
   const [open, setOpen] = React.useState(false);
-  const sortRef = React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   const sort = useSelector(selectSort);
   const dispatch = useDispatch();
 
-  const onChangeSort = (name, i) => {
+  const onChangeSort = (sortObj: SortItem) => {
     setOpen(false);
-    dispatch(setSort(name));
+    dispatch(setSort(sortObj.sortProp));
   }
 
 
-  React.useEffect(()=>{
-    const handleClickOutside=e=>{
-      if(!e.composedPath().includes(sortRef.current))
-      setOpen(false);
+  React.useEffect(() => {
+    const handleClickOutside = (e: any) => {
+      if (!e.composedPath().includes(sortRef.current))
+        setOpen(false);
     }
     document.body.addEventListener('click', handleClickOutside);
-    
-    return ()=>document.body.removeEventListener('click', handleClickOutside); 
-  },[])
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, [])
 
   return (
     <div
@@ -54,7 +59,7 @@ function Sort() {
         </svg>
         <b>Сортировка по:</b>
         <span onClick={() => setOpen(!open)}>{
-          list.find(obj => obj.sortProp === sort).name
+          list.find(obj => obj.sortProp === sort)?.name
         }</span>
       </div>
       {
@@ -64,7 +69,7 @@ function Sort() {
               {
                 list.map((obj, i) => <li
                   key={obj.sortProp}
-                  onClick={() => onChangeSort(obj.sortProp)}
+                  onClick={() => onChangeSort(obj)}
                   className={sort === list[i].sortProp ? 'active' : ''}
                 >{obj.name}</li>)
               }

@@ -7,12 +7,12 @@ import logoSvg from '../assets/img/pizza-logo.svg';
 import { selectCart } from '../redux/slices/cartSlice';
 
 function Header() {
-  const {totalPrice, items}=useSelector(selectCart);
-  const {pathname}=useLocation();
+  const { totalPrice, items } = useSelector(selectCart);
+  const { pathname } = useLocation();
 
   console.log('pathname', pathname)
 
-  const totalCount=items.reduce((sum,item)=>sum+item.count, 0);
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   return (
     <div className="header">
@@ -27,7 +27,7 @@ function Header() {
           </div>
         </Link>
         <Search />
-        {pathname!=='/cart' && (<div className="header__cart">
+        {pathname !== '/cart' && (<div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>{totalPrice} грн.</span>
             <div className="button__delimiter"></div>

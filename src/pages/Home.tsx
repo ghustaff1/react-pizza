@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import {  fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 
-const Home = () => {
+const Home:React.FC = () => {
   const navigate = useNavigate();
 
   const isMounted = React.useRef(false);
@@ -40,7 +40,7 @@ const Home = () => {
     getPizzas(_pizzaDataUrl);
   }, [category, sort, searchValue, currentPage]);
 
-  const getPizzas = async (url) => {
+  const getPizzas = async (url:string) => {
     category ? url += `category=${category}` : url = url;
 
     let order;
@@ -50,7 +50,10 @@ const Home = () => {
 
     searchValue ? url += `&search=${searchValue}` : url = url;
     console.log(url)
-    dispatch(fetchPizzas(url));
+    dispatch(
+      // @ts-ignore
+      fetchPizzas(url)
+      );
   }
 
   React.useEffect(() => {
@@ -69,7 +72,7 @@ const Home = () => {
   const skeletons = [...new Array(8)].map((name, i) => <Skeleton key={i} />);
 
 
-  const pizzas = items.map(obj =>
+  const pizzas = items.map((obj:any) =>
     <Link to={`pizza/${obj.id}`} key={obj.id}>
       <PizzaBlock {...obj} />
       </Link>
@@ -96,7 +99,7 @@ const Home = () => {
       </div>
       <Pagination
         currentPage={currentPage}
-        onChangePage={(number) => dispatch(setCurrentPage(number))} />
+        onChangePage={(page:number) => dispatch(setCurrentPage(page))} />
     </div>
   )
 }
