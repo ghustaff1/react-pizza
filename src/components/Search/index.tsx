@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setSearchValue } from '../../redux/slices/filterSlice';
 
 
-const Search:React.FC = () => {
+const Search: React.FC = () => {
   const [value, setValue] = React.useState('');
 
   const dispatch = useDispatch();
@@ -16,18 +16,18 @@ const Search:React.FC = () => {
 
 
   const updateSearchValue = React.useCallback(
-    debounce((str:any) => {
+    debounce((str: any) => {
       dispatch(setSearchValue(str));
     }, 650),
     [],
   );
 
-  const onChangeInput=(e:any)=>{
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     updateSearchValue(e.target.value);
   }
 
-  const onClickClear = () => {
+  const onClickClear = (e:React.MouseEvent<SVGSVGElement>) => {
     setValue('');
     dispatch(setSearchValue(''));
     inputRef.current?.focus();
@@ -40,7 +40,7 @@ const Search:React.FC = () => {
       <input
         ref={inputRef}
         value={value}
-        onChange={(e)=>onChangeInput(e)}
+        onChange={(e) => onChangeInput(e)}
         className={styles.input}
         placeholder='Поиск пиццы' />
       {value &&

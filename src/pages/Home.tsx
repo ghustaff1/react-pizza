@@ -10,16 +10,17 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import {  fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
+import { useSelector } from 'react-redux';
+import { FilterSliceState, selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
+import { useAppDispatch } from '../redux/store';
 
-const Home:React.FC = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
 
   const isMounted = React.useRef(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { category, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData)
 
@@ -29,7 +30,8 @@ const Home:React.FC = () => {
 
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = (qs.parse(window.location.search.substring(1)) as unknown) as FilterSliceState;
+
       dispatch(
         setFilters(params)
       );
@@ -40,20 +42,21 @@ const Home:React.FC = () => {
     getPizzas(_pizzaDataUrl);
   }, [category, sort, searchValue, currentPage]);
 
-  const getPizzas = async (url:string) => {
-    category ? url += `category=${category}` : url = url;
+
+  const getPizzas = async (url: string) => {
+    if (category) url += `category=${category}`;
 
     let order;
     sort.includes('-') ? order = 'desc' : order = 'asc';
 
     url += `&sortBy=${sort.replace('-', '')}&order=${order}`;
 
-    searchValue ? url += `&search=${searchValue}` : url = url;
+    if (searchValue) url += `&search=${searchValue}`
     console.log(url)
+
     dispatch(
-      // @ts-ignore
       fetchPizzas(url)
-      );
+    );
   }
 
   React.useEffect(() => {
@@ -72,10 +75,8 @@ const Home:React.FC = () => {
   const skeletons = [...new Array(8)].map((name, i) => <Skeleton key={i} />);
 
 
-  const pizzas = items.map((obj:any) =>
-    <Link to={`pizza/${obj.id}`} key={obj.id}>
+  const pizzas = items.map((obj: any) =>
       <PizzaBlock {...obj} />
-      </Link>
   )
 
   const content = status === 'loading' ?
@@ -99,7 +100,7 @@ const Home:React.FC = () => {
       </div>
       <Pagination
         currentPage={currentPage}
-        onChangePage={(page:number) => dispatch(setCurrentPage(page))} />
+        onChangePage={(page: number) => dispatch(setCurrentPage(page))} />
     </div>
   )
 }
