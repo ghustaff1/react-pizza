@@ -18,15 +18,14 @@ const CartItemBlock: React.FC<CartItemProps> = ({ id, imageUrl, size, price, typ
   const onClickPlus = () => {
     dispatch(
       addItem({
-        id
+        id,
+        price
       } as CartItem),
     );
   }
 
   const onClickMinus = () => {
-    dispatch(
-      minusItem(id)
-    );
+    dispatch(minusItem(id));
   }
 
   const onClickRemove = () => {

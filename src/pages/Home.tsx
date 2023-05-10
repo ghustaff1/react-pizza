@@ -12,7 +12,7 @@ import Pagination from '../components/Pagination';
 
 import { useSelector } from 'react-redux';
 import { FilterSliceState, selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
+import { Pizza, fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 import { useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
@@ -75,8 +75,8 @@ const Home: React.FC = () => {
   const skeletons = [...new Array(8)].map((name, i) => <Skeleton key={i} />);
 
 
-  const pizzas = items.map((obj: any) =>
-      <PizzaBlock {...obj} />
+  const pizzas = items.map((obj: Pizza) =>
+    <PizzaBlock {...obj} key={obj.id} />
   )
 
   const content = status === 'loading' ?
@@ -92,7 +92,7 @@ const Home: React.FC = () => {
     <div className='container'>
       <div className="content__top">
         <Categories />
-        <Sort />
+        <Sort value={sort}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

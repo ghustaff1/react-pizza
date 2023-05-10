@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 
-type Pizza = {
+export type Pizza = {
   category: number
   id: string,
   imageUrl: string,
